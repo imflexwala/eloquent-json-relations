@@ -42,7 +42,8 @@ class HasManyJson extends HasMany
                 $parentKey = [[$this->key => $parentKey]];
             }
 
-            $this->query->whereJsonContains($this->path, $parentKey);
+            //$this->query->whereJsonContains($this->path, $parentKey);
+	        $this->query->whereRaw("json_contains({$this->path}, JSON_QUOTE('{$parentKey}'))");
         }
     }
 
@@ -62,7 +63,8 @@ class HasManyJson extends HasMany
                     $key = [[$this->key => $key]];
                 }
 
-                $query->orWhereJsonContains($this->path, $key);
+                //$query->orWhereJsonContains($this->path, $key);
+	            $query->orWhereRaw("json_contains({$this->path}, JSON_QUOTE('{$key}'))");
             }
         });
     }
